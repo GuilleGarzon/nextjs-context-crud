@@ -1,3 +1,4 @@
+import { Navbar } from '@/components/Navbar';
 import { TaskProvider } from '../context/TasksContext';
 import { Inter } from 'next/font/google';
 
@@ -13,6 +14,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <TaskProvider>
+          <Navbar />
           {children}          
         </TaskProvider>
       </body>
