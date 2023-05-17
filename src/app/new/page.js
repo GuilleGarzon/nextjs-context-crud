@@ -1,12 +1,15 @@
 "use client"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTasks } from '../../context/TasksContext';
 import { useRouter } from 'next/navigation';
 
-function Page() {
+function Page({params}) {
 
-  const [task, setTask] = useState();
-  const { createTask } = useTasks();
+  const [task, setTask] = useState({
+    title: "",
+    description: ""
+  });
+  const { tasks, createTask } = useTasks();
   const router = useRouter();
 
   const handleChange = (event) => {
@@ -16,21 +19,40 @@ function Page() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    createTask(task.title, task.description);
+    
+    if ( params.id ) {
+      console.log('edit')
+    } else {
+      createTask(task.title, task.description);
+    }
+
     router.push('/');
   }
+
+  useEffect(() => {
+    if (params.id) {
+      const taskFound = tasks.find((task) => task.id === params.id)      
+      if ( taskFound ) 
+        setTask({
+          title: taskFound.title, 
+          description: taskFound.description
+        });
+    }
+  }, []);
 
   return (
     <form onSubmit={handleSubmit}>
       <input name="title" placeholder="Write a title"
         onChange={handleChange}
+        value={task.title}
       />
       <textarea name="description" placeholder="Write a description"
         onChange={handleChange}
+        value={task.description}
       />
       <button>Save</button>
     </form>
   )
 }
 
-export default Page
+export default Page;
