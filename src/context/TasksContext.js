@@ -27,6 +27,12 @@ export const TaskProvider = ({children}) => {
       [...tasks.filter(task => task.id !== id)]
     );
   };
+
+  const updateTask = (id, newData) => {
+    setTasks(
+      [...tasks.map(task => task.id === id ? {...task, ...newData} : task)]
+    )
+  }
   
 
   return (
@@ -34,7 +40,8 @@ export const TaskProvider = ({children}) => {
     value={{
       tasks,
       createTask,
-      deleteTask
+      deleteTask,
+      updateTask
     }} >
     { children }
   </TaskContext.Provider>)

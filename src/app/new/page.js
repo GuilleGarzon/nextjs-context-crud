@@ -9,7 +9,7 @@ function Page({params}) {
     title: "",
     description: ""
   });
-  const { tasks, createTask } = useTasks();
+  const { tasks, createTask, updateTask } = useTasks();
   const router = useRouter();
 
   const handleChange = (event) => {
@@ -21,7 +21,7 @@ function Page({params}) {
     event.preventDefault();
     
     if ( params.id ) {
-      console.log('edit')
+      updateTask(params.id, task)
     } else {
       createTask(task.title, task.description);
     }
